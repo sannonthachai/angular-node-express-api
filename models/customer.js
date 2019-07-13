@@ -16,6 +16,9 @@ const customerSchema = mongoose.Schema({
     },
     zipcode: {
         type: String
+    },
+    password: {
+        type: String
     }
 })
 

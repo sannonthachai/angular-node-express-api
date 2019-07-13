@@ -33,6 +33,15 @@ router.post('/', async (req,res) => {
 })
 
 router.get('/:customer_id', async (req,res) => {
+  try {
+    let customer = await Customer.findOne({ id: req.params.customer_id })
+
+    return res.json(customer)
+  }
+
+  catch (err) {
+    return err
+  }
 })
 
 module.exports = router
