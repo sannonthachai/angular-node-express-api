@@ -2,6 +2,7 @@
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const morgan = require('morgan')
 const app = express()
 // For database ====================================================================
 const mongoose = require('mongoose')
@@ -13,6 +14,7 @@ mongoose.connect(db.mongoURI,db.set)
         .catch(err => console.log(err))
 
 // Set up our express application ==================================================
+app.use(morgan('dev')) 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
@@ -29,6 +31,6 @@ app.use('/api/v1/customer', require('./routes/customer'))
 
 // Connect Port ====================================================================
 const PORT = process.env.PORT || 3000
-app.listen(PORT, console.log(`Server started on port ${PORT}`))
+app.listen(PORT, console.log(`Server started on port ${PORT}` + '\n' + 'At part /api/v1/customer'))
 
 module.exports = app
