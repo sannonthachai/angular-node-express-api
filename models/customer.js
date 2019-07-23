@@ -2,8 +2,7 @@ const mongoose = require('mongoose')
 
 const customerSchema = mongoose.Schema({
     id: {
-        type: Number,
-        default: 0
+        type: Number
     },
     first_name: {
         type: String
