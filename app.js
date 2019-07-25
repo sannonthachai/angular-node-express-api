@@ -3,7 +3,7 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
-const expressValidator = require('express-validator')
+// const expressValidator = require('express-validator')
 const app = express()
 // For database ====================================================================
 const mongoose = require('mongoose')
@@ -19,7 +19,7 @@ app.use(morgan('dev'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(expressValidator())
+// app.use(expressValidator())
 
 // CORS ============================================================================
 app.use((req, res, next) => {
