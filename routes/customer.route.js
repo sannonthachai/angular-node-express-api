@@ -89,4 +89,47 @@ router.route('/:customer_id')
     }
   })
 
+  .put([
+    check('first_name').isAlpha("en-US"),
+    check('last_name').isAlpha("en-US"),
+    check('email').isEmail(),
+    check('zipcode').isLength({ min: 5, max: 5 }),
+    check('password').isLength({ min: 8 })
+  ], async (req,res) => {
+
+    const { first_name, last_name, email, zipcode, password } = req.body
+    const errors = validationResult(req)
+
+    try {
+      let customer = await Customer.findOne({ id: req.params.customer_id })
+
+      if (customer === null) {
+        return res.status(404).json({ message: "Not have Customer" })
+      }
+
+      if (!first_name || !last_name || !email || ! zipcode || !password) {
+        return res.status(400).json({ message: "Please enter all field" })
+      }
+    
+      if (!errors.isEmpty()){
+        return res.status(422).json({ errors: errors.array() })
+      }
+
+      customer.id = req.body.id
+      customer.first_name = req.body.first_name
+      customer.last_name = req.body.last_name
+      customer.email = req.body.email
+      customer.zipcode = req.body.zipcode
+      customer.password = req.body.password
+
+      customer.save()
+        
+      return res.json({ message: "Customer updated!" })
+    }
+
+    catch (err) {
+      return err
+    }
+  })
+
 module.exports = router
