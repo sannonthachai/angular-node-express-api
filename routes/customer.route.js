@@ -26,10 +26,10 @@ router.post('/', [
   check('password').isLength({ min: 8 })
 ], async (req,res) => {
 
-  const { id, first_name, last_name, email, zipcode, password } = req.body
+  const { first_name, last_name, email, zipcode, password } = req.body
   const errors = validationResult(req)
 
-  if (!id || !first_name || !last_name || !email || ! zipcode || !password) {
+  if (!first_name || !last_name || !email || ! zipcode || !password) {
     return res.status(400).json({ message: "Please enter all field" })
   }
 
