@@ -1,6 +1,7 @@
 // Set up router =========================================================================
 const express = require('express')
 const router = express.Router()
+const { check, validationResult } = require('express-validator')
 // Import model ==========================================================================
 const Customer = require('../models/customer')
 
@@ -17,14 +18,31 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.post('/', async (req,res) => {
+router.post('/', [
+  check('first_name').isAlpha("en-US"),
+  check('last_name').isAlpha("en-US"),
+  check('email').isEmail(),
+  check('zipcode').isLength({ min: 5, max: 5 }),
+  check('password').isLength({ min: 8 })
+], async (req,res) => {
+
+  const { id, first_name, last_name, email, zipcode, password } = req.body
+  const errors = validationResult(req)
+
+  if (!id || !first_name || !last_name || !email || ! zipcode || !password) {
+    return res.status(400).json({ message: "Please enter all field" })
+  }
+
+  if (!errors.isEmpty()){
+    return res.status(422).json({ errors: errors.array() })
+  }
   
   try {
     let customer = new Customer(req.body)
 
     customer.save()
     
-    return res.json({ message: "Create complete!" })
+    return res.status(201).json({ message: "Create complete!" })
   }
 
   catch (err) {
