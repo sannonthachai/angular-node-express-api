@@ -23,7 +23,7 @@ router.post('/', [
   check('last_name').isAlpha("en-US"),
   check('email').isEmail(),
   check('zipcode').isLength({ min: 5, max: 5 }),
-  check('password').isLength({ min: 8 })
+  check('password').isLength({ min: 8, max: 15 })
 ], async (req,res) => {
 
   const { first_name, last_name, email, zipcode, password } = req.body
@@ -33,7 +33,7 @@ router.post('/', [
     return res.status(400).json({ message: "Please enter all field" })
   }
 
-  if (!errors.isEmpty()){
+  if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array() })
   }
   
