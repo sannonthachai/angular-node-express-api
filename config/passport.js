@@ -22,7 +22,7 @@ module.exports = (passport) => {
               let user = await User.findOne({ 'local.username': username })
 
               if (user === null) {
-                  return res.status(404).json({ message: 'That username is not registered' })
+                  return res.status(404).json({ message: "That username is not registered" })
               }
 
               let isMatch = await bcrypt.compare(password, user.local.password)
@@ -31,7 +31,7 @@ module.exports = (passport) => {
                   return res.status(200).json(user)
               } 
               else {
-                  return res.status(422).json({ message: 'Password incorrect' })
+                  return res.status(422).json({ message: "Password incorrect" })
               }
           }
 

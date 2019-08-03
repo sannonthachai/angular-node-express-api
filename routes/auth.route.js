@@ -44,13 +44,13 @@ router.post('/register', [
     const { email, username, password, password2 } = req.body
     const errors = validationResult(req)
 
-    if (!email || !username || !password) {
+    if (!email || !username || !password || !password2) {
         return res.status(400).json({ message: "Please enter all field" })
     }
 
-    // if (password != password2) {
-    //     return res.json({ message: 'Passwords do not match' })
-    // }
+    if (password != password2) {
+        return res.json({ message: "Passwords do not match" })
+    }
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() })
@@ -60,7 +60,7 @@ router.post('/register', [
         let user = await User.findOne({ 'local.username': username })
 
         if (user !== null) {
-            return res.json({ message: 'Username already exists' })
+            return res.json({ message: "Username already exists" })
         }
 
         user = new User()
@@ -72,6 +72,35 @@ router.post('/register', [
         user.save()
 
         return res.status(201).json({ message: "You are now registered and can login" })
+    }
+
+    catch (err) {
+        return err
+    }
+})
+
+router.post('/login', passport.authenticate('local', { session: false }), async (req,res) => {
+
+    try {
+        let payload = {
+            sub: req.body.username,
+            iat: new Date().getTime()
+        }
+        let token = await jwt.sign(payload, key.secret)
+        
+        return res.cookie('jwt', token, { httpOnly: true })
+    }
+    
+    catch (err) {
+        return err
+    }
+})
+
+router.get('/logout', async (req,res) => {
+    try {
+        req.logout()
+
+        return res.status(200).clearCookie('jwt', { httpOnly: true }).json({ message: "You are logged out" })
     }
 
     catch (err) {
