@@ -10,22 +10,47 @@ const User = require('../models/user')
 // Import middleware =====================================================================
 // const token = require('../../config/middleware')
 
+router.get('/register', async (req,res) => {
+    try {
+        let users = await User.find()
+
+        return res.json(users)
+    }
+
+    catch (err) {
+        return err
+    }
+})
+
+router.delete('/register/:id', async (req,res) => {
+
+    try {
+        let userDelete = await User.deleteOne({ _id: req.params.id })
+
+        return res.json({ message: "User deleted!" })
+    }
+    
+    catch (err) {
+        return err
+    }
+})
+
 router.post('/register', [
     check('email').isEmail(),
-    check('username').isAlpha("en-US").isLength({ min: 8, max: 15 }),
+    check('username').isLength({ min: 8, max: 15 }),
     check('password').isLength({ min: 8, max: 15 })
 ], async (req,res) => {
 
     const { email, username, password, password2 } = req.body
     const errors = validationResult(req)
 
-    if (!email || !username || !password || !password2) {
+    if (!email || !username || !password) {
         return res.status(400).json({ message: "Please enter all field" })
     }
 
-    if (password != password2) {
-        return res.json({ message: 'Passwords do not match' })
-    }
+    // if (password != password2) {
+    //     return res.json({ message: 'Passwords do not match' })
+    // }
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() })
@@ -38,7 +63,7 @@ router.post('/register', [
             return res.json({ message: 'Username already exists' })
         }
 
-        let user = new User()
+        user = new User()
 
         user.local.email    = email
         user.local.username = username
@@ -53,4 +78,6 @@ router.post('/register', [
         return err
     }
 })
+
+module.exports = router
 
