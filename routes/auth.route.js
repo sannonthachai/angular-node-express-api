@@ -39,16 +39,16 @@ router.post('/register', [
     check('password').isLength({ min: 8, max: 15 })
 ], async (req,res) => {
 
-    const { email, username, password, password2 } = req.body
+    const { email, username, password } = req.body
     const errors = validationResult(req)
 
-    if (!email || !username || !password || !password2) {
+    if (!email || !username || !password) {
         return res.status(400).json({ message: "Please enter all field" })
     }
 
-    if (password != password2) {
-        return res.json({ message: "Passwords do not match" })
-    }
+    // if (password != password2) {
+    //     return res.json({ message: "Passwords do not match" })
+    // }
 
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() })
