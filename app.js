@@ -30,6 +30,7 @@ app.use((req, res, next) => {
 })
 
 // Routes ==========================================================================
+const token = require('./config/auth.middleware')
 app.use('/api/v1/customer', require('./routes/customer.route'))
 app.use('/api/v1/auth', require('./routes/auth.route'))
 

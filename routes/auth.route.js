@@ -7,8 +7,6 @@ const key = require('../config/key')
 const { check, validationResult } = require('express-validator')
 // Import model ==========================================================================
 const User = require('../models/user')
-// Import middleware =====================================================================
-// const token = require('../../config/middleware')
 
 router.get('/register', async (req,res) => {
     try {
