@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
   }
   
   catch (err) {
-    return err
+    return next(err)
   }
 })
 
@@ -46,7 +46,7 @@ router.post('/', [
   }
 
   catch (err) {
-    return err
+    return next(err)
   }
 })
 
@@ -66,7 +66,7 @@ router.route('/:customer_id')
     }
 
     catch (err) {
-      return err
+      return next(err)
     }
   })
 
@@ -85,7 +85,7 @@ router.route('/:customer_id')
     }
 
     catch (err) {
-      return err
+      return next(err)
     }
   })
 
@@ -128,7 +128,7 @@ router.route('/:customer_id')
     }
 
     catch (err) {
-      return err
+      return next(err)
     }
   })
 

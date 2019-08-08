@@ -9,7 +9,7 @@ module.exports = {
         }
         
         catch (err) {
-            return err
+            return next(err)
         }
     },
     forwardAuthenticated: async (req, res, next) => {
@@ -22,7 +22,7 @@ module.exports = {
         }
 
         catch (err) {
-            return err
+            return next(err)
         }
     }
 }

@@ -16,7 +16,7 @@ router.get('/register', async (req,res) => {
     }
 
     catch (err) {
-        return err
+        return next(err)
     }
 })
 
@@ -29,7 +29,7 @@ router.delete('/register/:id', async (req,res) => {
     }
     
     catch (err) {
-        return err
+        return next(err)
     }
 })
 
@@ -73,7 +73,7 @@ router.post('/register', [
     }
 
     catch (err) {
-        return err
+        return next(err)
     }
 })
 
@@ -90,7 +90,7 @@ router.post('/login', passport.authenticate('local', { session: false }), async 
     }
     
     catch (err) {
-        return err
+        return next(err)
     }
 })
 
@@ -102,7 +102,7 @@ router.get('/logout', async (req,res) => {
     }
 
     catch (err) {
-        return err
+        return next(err)
     }
 })
 
