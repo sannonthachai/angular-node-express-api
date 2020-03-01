@@ -1,0 +1,12 @@
+version: '3'
+services: 
+    angular-api:
+        build: .
+        image: angular-api
+        container_name: angular-api
+        ports: 
+            - "3000:3000"
+        volumes: 
+            - ".:/usr/src/app"
+        command: node app.js
+        network_mode: bridge
